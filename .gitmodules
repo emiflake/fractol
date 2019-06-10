@@ -1,0 +1,6 @@
+[submodule "libgfx"]
+	path = libgfx
+	url = git@github.com:emiflake/libgfx.git
+[submodule "libft"]
+	path = libft
+	url = git@github.com:emiflake/libft.git
