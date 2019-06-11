@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 18:26:02 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 01:08:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/11 18:57:15 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 typedef enum	e_fractal_type
 {
-	FRACTAL_JULIA
+	FRACTAL_JULIA,
+	FRACTAL_MANDLEBROT,
 }				t_fractal_type;
 
 /*
@@ -32,5 +33,17 @@ typedef struct	s_julia_spec
 
 void	render_julia(t_gfx_state *st);
 int		fract_julia(t_gfx_state *st, t_vec2 *pos, t_julia_spec *spec);
+
+/*
+** In general, a fractal must consist of a function like this
+*/
+typedef struct	s_mandlebrot_spec
+{
+	double zoom;
+	t_vec2 offset;
+}				t_mandlebrot_spec;
+
+void	render_mandlebrot(t_gfx_state *st);
+int		fract_mandlebrot(t_gfx_state *st, t_vec2 *pos, t_mandlebrot_spec *spec);
 
 #endif

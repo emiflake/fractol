@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   julia.c                                            :+:    :+:            */
+/*   mandlebrot.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/10 18:28:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 18:15:06 by nmartins      ########   odam.nl         */
+/*   Created: 2019/06/11 15:30:55 by nmartins       #+#    #+#                */
+/*   Updated: 2019/06/11 18:57:05 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,25 @@ static void		dispatch_colorization(t_gfx_state *st, t_vec2 *p, int colorizer)
 	else
 		gfx_blit_pixel(st, st->buffer, demote_vec2(*p),
 			gfx_color_from_rgb(gfx_hsl2rgb(mk_hsl(
-				fmod(colorizer * 25, 360), 0.7, 0.7))));
+				colorizer * 10, 0.7, 0.7))));
 }
 
-void			render_julia(t_gfx_state *st)
+void			render_mandlebrot(t_gfx_state *st)
 {
-	const t_state	*mst = st->user_state;
-	t_julia_spec	sp;
-	int				res;
-	t_vec2			p;
+	const t_state		*mst = st->user_state;
+	t_mandlebrot_spec	sp;
+	int					res;
+	t_vec2				p;
 
-	sp.c = mk_vec2(
-		((double)st->mouse_state.mouse_pos.x / WIN_WIDTH - 0.5) * 2.5,
-		((double)st->mouse_state.mouse_pos.y / WIN_HEIGHT - 0.5) * 2.5);
 	sp.zoom = mst->zoom_level;
 	sp.offset = mst->camera_position;
-	mst = st->user_state;
 	p.x = 0;
 	while (p.x < WIN_WIDTH)
 	{
 		p.y = 0;
 		while (p.y < WIN_HEIGHT)
 		{
-			res = fract_julia(st, &p, &sp);
+			res = fract_mandlebrot(st, &p, &sp);
 			dispatch_colorization(st, &p, res);
 			p.y++;
 		}
@@ -58,26 +54,37 @@ void			render_julia(t_gfx_state *st)
 	}
 }
 
-int				fract_julia(t_gfx_state *st, t_vec2 *pos, t_julia_spec *spec)
+double			fix_iter(double zx, double zy, double iter)
 {
-	double	zx;
-	double	zy;
-	size_t	iteration;
+	const double	log_zn = log(zx * zx + zy + zy) / 2.0;
+	const double	nu = log(log_zn / log(2)) / log(2);
+
+	return (iter + 1 - nu);
+}
+
+int				fract_mandlebrot(
+	t_gfx_state *st,
+	t_vec2 *pos,
+	t_mandlebrot_spec *spec)
+{
+	t_vec2	z;
+	t_vec2	p;
+	double	iteration;
 	double	tmp;
 
-	zx = pos->x / WIN_WIDTH * spec->zoom - spec->zoom / 2 + spec->offset.x;
-	zy = pos->y / WIN_HEIGHT * spec->zoom - spec->zoom / 2 + spec->offset.y;
+	z.x = pos->x / WIN_WIDTH * spec->zoom - spec->zoom / 2 + spec->offset.x;
+	z.y = pos->y / WIN_HEIGHT * spec->zoom - spec->zoom / 2 + spec->offset.y;
+	p = mk_vec2(0, 0);
 	iteration = 0;
-	while (zx * zx + zy * zy < 4 && iteration < MAX_ITERATION)
+	while (p.x * p.x + p.y * p.y <= (1 << 16) && iteration < MAX_ITERATION)
 	{
-		tmp = zx * zx - zy * zy;
-		zy = 2 * zx * zy + spec->c.y;
-		zx = tmp + spec->c.x;
+		tmp = p.x * p.x - p.y * p.y + z.x;
+		p.y = 2 * p.x * p.y + z.y;
+		p.x = tmp;
 		iteration++;
 	}
-	if (iteration == MAX_ITERATION)
-		return (-1);
-	else
-		return (iteration);
+	if (iteration < MAX_ITERATION)
+		iteration = fix_iter(p.x, p.y, iteration);
+	return (iteration);
 	(void)st;
 }
