@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 20:20:40 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 16:58:09 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/24 23:10:23 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	keypress(int key_code, t_gfx_state *st)
 	if (key_code == KC_ESC)
 		exit(0);
 	if (key_code == KC_SPACE)
-	{
-		printf("!!!!\n");
 		mst->fractal = !mst->fractal;
-	}
 	return (0);
 }
 

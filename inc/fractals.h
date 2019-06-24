@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 18:26:02 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 18:57:15 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/24 23:09:53 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ typedef struct	s_mandlebrot_spec
 }				t_mandlebrot_spec;
 
 void	render_mandlebrot(t_gfx_state *st);
-int		fract_mandlebrot(t_gfx_state *st, t_vec2 *pos, t_mandlebrot_spec *spec);
+double	fract_mandlebrot(t_gfx_state *st, t_vec2 *pos, t_mandlebrot_spec *spec);
 
 #endif

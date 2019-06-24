@@ -6,11 +6,10 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/11 15:30:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 18:57:05 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/24 23:19:22 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libgfx.h>
 #include <math.h>
 
 #include "const.h"
@@ -19,7 +18,7 @@
 
 #define MAX_ITERATION 100
 
-static void		dispatch_colorization(t_gfx_state *st, t_vec2 *p, int colorizer)
+static void		dispatch_colorization(t_gfx_state *st, t_vec2 *p, double colorizer)
 {
 	(void)st;
 	(void)colorizer;
@@ -28,14 +27,14 @@ static void		dispatch_colorization(t_gfx_state *st, t_vec2 *p, int colorizer)
 	else
 		gfx_blit_pixel(st, st->buffer, demote_vec2(*p),
 			gfx_color_from_rgb(gfx_hsl2rgb(mk_hsl(
-				colorizer * 10, 0.7, 0.7))));
+				colorizer * 10.0, 0.7, 0.7))));
 }
 
 void			render_mandlebrot(t_gfx_state *st)
 {
 	const t_state		*mst = st->user_state;
 	t_mandlebrot_spec	sp;
-	int					res;
+	double				res;
 	t_vec2				p;
 
 	sp.zoom = mst->zoom_level;
@@ -56,13 +55,13 @@ void			render_mandlebrot(t_gfx_state *st)
 
 double			fix_iter(double zx, double zy, double iter)
 {
-	const double	log_zn = log(zx * zx + zy + zy) / 2.0;
-	const double	nu = log(log_zn / log(2)) / log(2);
+	const double	log_zn = log(zx * zx + zy * zy) / 2.0;
+	const double	nu = log(log_zn / log(2.0)) / log(2.0);
 
-	return (iter + 1 - nu);
+	return (iter + 1.0 - nu);
 }
 
-int				fract_mandlebrot(
+double			fract_mandlebrot(
 	t_gfx_state *st,
 	t_vec2 *pos,
 	t_mandlebrot_spec *spec)
