@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 19:03:36 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/11 16:58:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/24 23:31:03 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			debug_info(t_gfx_state *st)
 	asprintf(&dst, "%d FPS\n", fps);
 	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 80, 0x00, dst);
 	free(dst);
-	asprintf(&dst, "Zoom Level: %lf\n", mst->zoom_level);
+	asprintf(&dst, "Zoom Level: %.1lfx\n", exp(-log(mst->zoom_level)));
 	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 110, 0x00, dst);
 	free(dst);
 }
