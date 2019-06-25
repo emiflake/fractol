@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/29 19:32:58 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/10 19:42:21 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 13:47:59 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	main(int argc, char **argv)
 	t_hooks		hooks;
 	t_state		state;
 
-	(void)argc;
-	(void)argv;
 	init_state(&state, argc, argv);
 	ft_memset(&st, 0, sizeof(t_gfx_state));
 	ft_memset(&hooks, 0, sizeof(t_hooks));

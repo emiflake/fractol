@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 18:28:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 13:24:47 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 16:53:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,27 @@ void			*render_julia_segment(void *vconf)
 /*
 ** The amount of segments to split the rendering into
 */
-#define SEGMENT_COUNT 4
+#define SEGMENT_COUNT 100
+
+static void		mk_spec(const t_gfx_state *st, t_julia_spec *sp)
+{
+	const t_state			*mst = st->user_state;
+
+	sp->c = mk_vec2(
+		((double)st->mouse_state.mouse_pos.x / WIN_WIDTH - 0.5) * 2.5,
+		((double)st->mouse_state.mouse_pos.y / WIN_HEIGHT - 0.5) * 2.5);
+	sp->zoom = mst->zoom_level;
+	sp->offset = mst->camera_position;
+}
 
 void			render_julia(t_gfx_state *st)
 {
-	const t_state			*mst = st->user_state;
 	t_julia_spec			sp;
 	t_julia_segment_conf	conf[SEGMENT_COUNT];
 	pthread_t				threads[SEGMENT_COUNT];
 	size_t					i;
 
-	sp.c = mk_vec2(
-		((double)st->mouse_state.mouse_pos.x / WIN_WIDTH - 0.5) * 2.5,
-		((double)st->mouse_state.mouse_pos.y / WIN_HEIGHT - 0.5) * 2.5);
-	sp.zoom = mst->zoom_level;
-	sp.offset = mst->camera_position;
+	mk_spec(st, &sp);
 	i = 0;
 	while (i < SEGMENT_COUNT)
 	{

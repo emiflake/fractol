@@ -6,7 +6,7 @@
 #    By: nmartins <nmartins@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/04/18 20:11:18 by nmartins       #+#    #+#                 #
-#    Updated: 2019/06/11 16:58:56 by nmartins      ########   odam.nl          #
+#    Updated: 2019/06/25 19:39:55 by nmartins      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,12 @@ OBJECT_NAMES=	\
 				my_keys \
 				my_mouse \
 				my_misc_events \
-				julia \
 				state \
 				my_update \
+				julia \
 				mandlebrot \
+				sierpinski \
+				koch \
 
 
 

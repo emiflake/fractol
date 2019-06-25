@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 20:02:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/24 23:00:16 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 13:51:07 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	update(t_gfx_state *st)
 		mst->zoom_level /= 1.05;
 	if (st->key_state[KC_MINUS])
 		mst->zoom_level *= 1.05;
-	mst->camera_position.x += 
-		- 0.05 * st->key_state[KC_A] * mst->zoom_level
+	mst->camera_position.x +=
+		-0.05 * st->key_state[KC_A] * mst->zoom_level
 		+ 0.05 * st->key_state[KC_D] * mst->zoom_level;
-	mst->camera_position.y += 
-		- 0.05 * st->key_state[KC_W] * mst->zoom_level
+	mst->camera_position.y +=
+		-0.05 * st->key_state[KC_W] * mst->zoom_level
 		+ 0.05 * st->key_state[KC_S] * mst->zoom_level;
 	(void)st;
 }

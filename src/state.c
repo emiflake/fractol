@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 19:41:51 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 13:46:49 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 19:28:43 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 static const t_fract_kvp g_lookup[] = {
 	{ "julia", FRACTAL_JULIA },
-	{ "mandlebrot", FRACTAL_MANDLEBROT }
+	{ "mandlebrot", FRACTAL_MANDLEBROT },
+	{ "sierpinski", FRACTAL_SIERPINSKI },
+	{ "koch", FRACTAL_KOCH },
 };
 
 void			show_options(void)
@@ -58,11 +60,27 @@ void			usage(char *exe_name)
 {
 	ft_putstr("Usage: ");
 	ft_putstr(exe_name);
-	ft_putstr(" <fractal name>\n");
+	ft_putstr(" <fractal name> --rainbow/-r\n");
+}
+
+int				has_flag(char *kw, int argc, char **argv)
+{
+	int i;
+
+	i = 0;
+	while (i < argc)
+	{
+		if (ft_strcmp(argv[i], kw) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void			init_state(t_state *st, int argc, char **argv)
 {
+	st->shift = has_flag("--rainbow", argc, argv)
+		|| has_flag("-r", argc, argv);
 	st->zoom_level = 1;
 	if (find_fractal(st, argc, argv) == -1)
 	{

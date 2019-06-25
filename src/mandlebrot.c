@@ -6,11 +6,12 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/11 15:30:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/24 23:19:22 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 20:01:23 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
+#include <pthread.h>
 
 #include "const.h"
 #include "fractals.h"
@@ -18,38 +19,71 @@
 
 #define MAX_ITERATION 100
 
-static void		dispatch_colorization(t_gfx_state *st, t_vec2 *p, double colorizer)
+static void		dispatch_colorization(
+	t_gfx_state *st,
+	t_vec2 *p,
+	double colorizer)
 {
-	(void)st;
-	(void)colorizer;
+	const t_state	*mst = st->user_state;
+	const long		epoch = mst->shift ? gfx_get_current_epoch() : 0;
+
 	if (colorizer == -1)
 		gfx_blit_pixel(st, st->buffer, demote_vec2(*p), 0x00);
 	else
 		gfx_blit_pixel(st, st->buffer, demote_vec2(*p),
 			gfx_color_from_rgb(gfx_hsl2rgb(mk_hsl(
-				colorizer * 10.0, 0.7, 0.7))));
+				fmod(colorizer * 20.0 + epoch / 25, 360), 0.7, 0.7))));
 }
 
-void			render_mandlebrot(t_gfx_state *st)
+void			*render_mandlebrot_segment(void *vconf)
 {
-	const t_state		*mst = st->user_state;
-	t_mandlebrot_spec	sp;
-	double				res;
-	t_vec2				p;
+	const t_mandlebrot_segment_conf	*conf = vconf;
+	const t_mandlebrot_spec			sp = conf->mspec;
+	double							res;
+	t_vec2							p;
 
-	sp.zoom = mst->zoom_level;
-	sp.offset = mst->camera_position;
-	p.x = 0;
-	while (p.x < WIN_WIDTH)
+	p.x = conf->pos.x;
+	while (p.x - conf->pos.x < conf->size.width)
 	{
-		p.y = 0;
-		while (p.y < WIN_HEIGHT)
+		p.y = conf->pos.y;
+		while (p.y - conf->pos.y < conf->size.height)
 		{
-			res = fract_mandlebrot(st, &p, &sp);
-			dispatch_colorization(st, &p, res);
+			res = fract_mandlebrot(conf->st, &p, (t_mandlebrot_spec*)&sp);
+			dispatch_colorization(conf->st, &p, res);
 			p.y++;
 		}
 		p.x++;
+	}
+	return (NULL);
+}
+
+#define SEGMENT_COUNT 100
+
+void			render_mandlebrot(t_gfx_state *st)
+{
+	const t_state				*mst = st->user_state;
+	t_mandlebrot_spec			sp;
+	t_mandlebrot_segment_conf	conf[SEGMENT_COUNT];
+	pthread_t					threads[SEGMENT_COUNT];
+	size_t						i;
+
+	i = 0;
+	sp.zoom = mst->zoom_level;
+	sp.offset = mst->camera_position;
+	while (i < SEGMENT_COUNT)
+	{
+		conf[i].mspec = sp;
+		conf[i].pos = mk_point(0, i * (WIN_HEIGHT / SEGMENT_COUNT));
+		conf[i].size = mk_dimensions(WIN_WIDTH, WIN_HEIGHT / SEGMENT_COUNT);
+		conf[i].st = st;
+		pthread_create(&threads[i], NULL, render_mandlebrot_segment, &conf[i]);
+		i++;
+	}
+	i = 0;
+	while (i < SEGMENT_COUNT)
+	{
+		pthread_join(threads[i], NULL);
+		i++;
 	}
 }
 
@@ -84,6 +118,8 @@ double			fract_mandlebrot(
 	}
 	if (iteration < MAX_ITERATION)
 		iteration = fix_iter(p.x, p.y, iteration);
+	else
+		return (-1);
 	return (iteration);
 	(void)st;
 }

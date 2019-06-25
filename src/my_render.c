@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 19:03:36 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 13:45:54 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 19:39:49 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void			render(t_gfx_state *st)
 		render_julia(st);
 	if (mst->fractal == FRACTAL_MANDLEBROT)
 		render_mandlebrot(st);
+	if (mst->fractal == FRACTAL_SIERPINSKI)
+		render_sierpinski(st);
+	if (mst->fractal == FRACTAL_KOCH)
+		render_koch(st);
 	gfx_blit_image(st, st->buffer, mk_point(0, 0));
 	debug_info(st);
 }
