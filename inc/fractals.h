@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 18:26:02 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/24 23:09:53 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 13:39:51 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ typedef struct	s_julia_spec
 	t_vec2 offset;
 	t_vec2 c;
 }				t_julia_spec;
+
+/*
+** This struct exists for multi threading
+*/
+typedef struct	s_julia_segment_conf
+{
+	t_gfx_state		*st;
+	t_dimensions	size;
+	t_point			pos;
+	t_julia_spec	jspec;
+}				t_julia_segment_conf;
 
 void	render_julia(t_gfx_state *st);
 int		fract_julia(t_gfx_state *st, t_vec2 *pos, t_julia_spec *spec);

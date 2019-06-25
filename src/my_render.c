@@ -6,20 +6,23 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 19:03:36 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/24 23:31:03 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/25 13:45:54 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libgfx.h>
 #include <math.h>
 #include <libft.h>
-#include <stdio.h>
+#include  <stdio.h>
 #include "const.h"
 #include "state.h"
 #include "render.h"
 #include "fractals.h"
 #include "my_update.h"
 
+/*
+** TODO: Polyfil with ft_printf (coming soon)
+*/
 
 void			debug_info(t_gfx_state *st)
 {
@@ -29,9 +32,6 @@ void			debug_info(t_gfx_state *st)
 	const double	cx = (double)st->mouse_state.mouse_pos.x / WIN_WIDTH - 0.5;
 	char			*dst;
 
-	/*
-	** TODO: Polyfil with ft_printf (coming soon)
-	*/
 	asprintf(&dst, "c = (%lf, %lf)\n", cx, cy);
 	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 50, 0x00, dst);
 	free(dst);
@@ -46,6 +46,7 @@ void			debug_info(t_gfx_state *st)
 void			render(t_gfx_state *st)
 {
 	const t_state	*mst = st->user_state;
+
 	update(st);
 	if (mst->fractal == FRACTAL_JULIA)
 		render_julia(st);
