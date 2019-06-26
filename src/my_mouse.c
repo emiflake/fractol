@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 20:21:39 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 13:42:54 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/26 16:01:39 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	mousepress(int button_code, int x, int y, t_gfx_state *st)
 	mst = st->user_state;
 	gfx_mouse_state_down(&st->mouse_state, button_code);
 	if (button_code == MC_SCROLLUP)
-		mst->zoom_level *= 1.05;
-	if (button_code == MC_SCROLLDOWN)
 		mst->zoom_level /= 1.05;
+	if (button_code == MC_SCROLLDOWN)
+		mst->zoom_level *= 1.05;
 	return (0);
 }
 
