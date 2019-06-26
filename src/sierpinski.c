@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 14:17:20 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 19:25:03 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/26 15:00:24 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,4 @@ void			render_sierpinski(t_gfx_state *st)
 		WIN_WIDTH / 2 - mst->camera_position.x / mst->zoom_level * 500,
 		WIN_HEIGHT / 2 - mst->camera_position.y / mst->zoom_level * 500,
 		5000 / mst->zoom_level);
-
-	return ;
 }
