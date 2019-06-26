@@ -12,3 +12,4 @@ The program currently supports the following fractals
 - koch snowflake
 
 # pretty images
+Mandlebrot's self recursive patterns ![mbrot1](https://lambda.sx/Cyp.png)
