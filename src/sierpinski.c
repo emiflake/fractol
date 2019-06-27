@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 14:17:20 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 15:00:24 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/27 13:49:34 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,22 @@
 
 void			triangle(t_gfx_state *st, int x, int y, int size)
 {
-	t_line		line;
+	const t_state	*mst = st->user_state;
+	const long		epoch = mst->shift ? gfx_get_current_epoch() : 0;
+	int				color;
+	t_line			line;
 
+	color = gfx_color_from_rgb(gfx_hsl2rgb(mk_hsl(
+		fmod(epoch / 25, 360), 0.5, 0.5)));
 	line.a = mk_point(x - size / 2, y + size / 2);
 	line.b = mk_point(x + size / 2, y + size / 2);
-	gfx_line(st, st->buffer, line, 0xFF);
+	gfx_line(st, st->buffer, line, color);
 	line.a = mk_point(x, y - size / 2);
 	line.b = mk_point(x + size / 2, y + size / 2);
-	gfx_line(st, st->buffer, line, 0xFF);
+	gfx_line(st, st->buffer, line, color);
 	line.a = mk_point(x, y - size / 2);
 	line.b = mk_point(x - size / 2, y + size / 2);
-	gfx_line(st, st->buffer, line, 0xFF);
+	gfx_line(st, st->buffer, line, color);
 }
 
 void			sierpinski(t_gfx_state *st, double x, double y, double size)

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/10 20:02:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 15:27:43 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:43:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	update_mouse(t_gfx_state *st)
 	static t_point	prev_pos;
 	const int		delta_x = st->mouse_state.mouse_pos.x - prev_pos.x;
 	const int		delta_y = st->mouse_state.mouse_pos.y - prev_pos.y;
-
 
 	mst = st->user_state;
 	if (st->mouse_state.button_state[MC_LEFT])

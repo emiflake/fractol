@@ -6,14 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 19:03:36 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/25 19:39:49 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/27 13:44:34 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libgfx.h>
 #include <math.h>
 #include <libft.h>
-#include  <stdio.h>
 #include "const.h"
 #include "state.h"
 #include "render.h"
@@ -26,20 +25,12 @@
 
 void			debug_info(t_gfx_state *st)
 {
-	const t_state	*mst = st->user_state;
 	const int		fps = gfx_get_fps(1);
-	const double	cy = (double)st->mouse_state.mouse_pos.y / WIN_HEIGHT - 0.5;
-	const double	cx = (double)st->mouse_state.mouse_pos.x / WIN_WIDTH - 0.5;
 	char			*dst;
 
-	asprintf(&dst, "c = (%lf, %lf)\n", cx, cy);
-	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 50, 0x00, dst);
-	free(dst);
-	asprintf(&dst, "%d FPS\n", fps);
+	dst = ft_itoa(fps);
+	ft_strreplace(&dst, ft_strjoin(dst, " FPS"));
 	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 80, 0x00, dst);
-	free(dst);
-	asprintf(&dst, "Zoom Level: %.1lfx\n", exp(-log(mst->zoom_level)));
-	mlx_string_put(st->mlx_ptr, st->win_ptr, 50, 110, 0x00, dst);
 	free(dst);
 }
 

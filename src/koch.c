@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 19:28:53 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 15:00:10 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/27 13:52:27 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			koch(t_gfx_state *st, t_vec2 p1, t_vec2 p2, int times)
 	else
 	{
 		l = mk_line(demote_vec2(p1), demote_vec2(p2));
-		gfx_line(st, st->buffer, l, 0x000000);
+		gfx_line(st, st->buffer, l, 0x00);
 	}
 }
 
@@ -57,10 +57,10 @@ void			render_koch(t_gfx_state *st)
 	gfx_fill_trgt(st, st->buffer, 0xFFFFFF);
 	koch(st,
 		mk_vec2(
-			mst->camera_position.x / mst->zoom_level * 500 - WIN_WIDTH / 2,
-			h + mst->camera_position.y / mst->zoom_level * 500),
+			-mst->camera_position.x / mst->zoom_level * 500 - WIN_WIDTH / 2,
+			h - mst->camera_position.y / mst->zoom_level * 500),
 		mk_vec2(
-			w + mst->camera_position.x / mst->zoom_level * 500 - WIN_WIDTH / 2,
-			h + mst->camera_position.y / mst->zoom_level * 500),
+			w - mst->camera_position.x / mst->zoom_level * 500 - WIN_WIDTH / 2,
+			h - mst->camera_position.y / mst->zoom_level * 500),
 		r);
 }
